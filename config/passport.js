@@ -7,20 +7,7 @@ const bcrypt = require('bcryptjs');
 const db = require('./db');
 require('dotenv').config();
 
-// Local Strategy
-// passport.use(new LocalStrategy({ usernameField: 'email' },
-//   (email, password, done) => {
-//     db.query('SELECT * FROM users WHERE email = ?', [email], (err, users) => {
-//       if (err) return done(err);
-//       if (!users.length) return done(null, false, { message: 'No user found' });
 
-//       bcrypt.compare(password, users[0].password, (err, match) => {
-//         if (match) return done(null, users[0]);
-//         else return done(null, false, { message: 'Wrong password' });
-//       });
-//     });
-//   }
-// ));
 
 passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
   try {
@@ -80,27 +67,7 @@ passport.use(new GitHubStrategy({
   handleOAuth('github', profile, done);
 }));
 
-// Shared OAuth logic
-// function handleOAuth(provider, profile, done) {
-//   const email = profile.emails?.[0]?.value || '';
 
-//   if (!email) {
-//     console.log(`❌ No email found for ${provider} user.`);
-//     return done(null, false, { message: 'Email is required' });
-//   }
-//   db.query('SELECT * FROM users WHERE oauth_id = ? AND provider = ?', [profile.id, provider], (err, users) => {
-//     if (err) return done(err);
-//     if (users.length) return done(null, users[0]);
-
-//     const name = profile.displayName;
-//     db.query('INSERT INTO users (name, email, provider, oauth_id) VALUES (?, ?, ?, ?)', [name, email, provider, profile.id], (err, result) => {
-//       if (err) return done(err);
-//       db.query('SELECT * FROM users WHERE id = ?', [result.insertId], (err, user) => {
-//         return done(null, user[0]);
-//       });
-//     });
-//   });
-// }
 
 
 // Shared OAuth logic
